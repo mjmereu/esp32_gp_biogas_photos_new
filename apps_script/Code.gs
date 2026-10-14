@@ -16,7 +16,10 @@ var UNSORTED_FOLDER = "Unsorted";        // photos land here if the device/folde
 var DEVICES = ["cam_1", "cam_2", "cam_3", "cam_4", "cam_5", "cam_6"];   // rows made by setup()
 
 // Open the web-app URL in a browser to confirm the deployment works.
+// Also (re)creates the Config and Log tabs if they are missing, so running doGet from the
+// editor, or just opening the URL, sets up the Sheet. setup() never overwrites existing tabs.
 function doGet(e) {
+  setup();
   return ContentService.createTextOutput("Script is live");
 }
 
