@@ -19,7 +19,7 @@ Carries over everything from [mjmereu/esp32cam-gdrive](https://github.com/mjmere
   a stray folder.
 - `enabled` is a checkbox. Unchecked = the board still uploads, but the script discards the photo
   (paused). Blank counts as enabled.
-- A `Log` tab records every upload: time, device, folder, status, file link.
+- A `Log` tab records every upload: date, time, device, folder, status, file link (date and time in separate columns).
 - File names are `<device>_<yyyyMMdd_HHmmss>.jpg` (time zone set in `Code.gs`).
 
 ## One-time setup

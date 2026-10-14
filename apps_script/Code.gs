@@ -5,7 +5,7 @@
 //
 // Sheet tabs:
 //   Config: device | folder_name | enabled   (one row per board; you edit folder_name per sample)
-//   Log:    time | device | folder | status | file link   (appended on every upload)
+//   Log:    date | time | device | folder | status | file link   (appended on every upload)
 //
 // Folders are NEVER created by this script (so a typo can't make a stray folder), except the
 // catch-all "Unsorted" folder. You create the sample's folders in Drive yourself, then paste
@@ -93,7 +93,13 @@ function unsortedFolder_() {
 
 function log_(device, folder, status, url) {
   var sheet = SpreadsheetApp.getActive().getSheetByName("Log");
-  if (sheet) sheet.appendRow([new Date(), device, folder, status, url]);
+  if (!sheet) return;
+  var now = new Date();
+  var date = Utilities.formatDate(now, TIMEZONE, "yyyy-MM-dd");   // same clock as the file names
+  var time = Utilities.formatDate(now, TIMEZONE, "HH:mm:ss");
+  var row = sheet.getLastRow() + 1;
+  sheet.getRange(row, 1, 1, 2).setNumberFormats([["@", "@"]]);    // keep date/time as plain text
+  sheet.getRange(row, 1, 1, 6).setValues([[date, time, device, folder, status, url]]);
 }
 
 // Run once from the editor: creates the Config and Log tabs.
@@ -112,8 +118,8 @@ function setup() {
 
   var log = ss.getSheetByName("Log") || ss.insertSheet("Log");
   if (log.getLastRow() === 0) {
-    log.appendRow(["time", "device", "folder", "status", "file"]);
-    log.getRange(1, 1, 1, 5).setFontWeight("bold");
+    log.appendRow(["date", "time", "device", "folder", "status", "file"]);
+    log.getRange(1, 1, 1, 6).setFontWeight("bold");
     log.setFrozenRows(1);
   }
 
