@@ -113,4 +113,8 @@ function setup() {
     log.getRange(1, 1, 1, 5).setFontWeight("bold");
     log.setFrozenRows(1);
   }
+
+  // Shows which spreadsheet this script is attached to, so you can open exactly that one.
+  Logger.log("Done. Tabs: " + ss.getSheets().map(function (s) { return s.getName(); }).join(", "));
+  Logger.log("Spreadsheet: " + ss.getUrl());
 }
