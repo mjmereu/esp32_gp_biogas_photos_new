@@ -338,7 +338,12 @@ bool uploadPhoto() {
   WiFiClientSecure client;
   client.setInsecure();   // skip certificate check (simple; fine for a hobby project)
   Serial.println("Connecting to " + String(myDomain));
-  if (!client.connect(myDomain, 443)) {
+  bool connected = false;
+  for (int attempt = 1; attempt <= 3 && !connected; attempt++) {   // school WiFi is flaky: retry
+    connected = client.connect(myDomain, 443);
+    if (!connected) { Serial.printf("Connect attempt %d failed\n", attempt); delay(2000); }
+  }
+  if (!connected) {
     Serial.println("Connection failed");
     free(jpg);
     return false;
